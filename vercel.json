@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "cd Frontend/frontend && npm install && npm run build",
+  "installCommand": "cd Backend && npm install",
   "builds": [
     {
       "src": "Backend/index.js",
@@ -9,22 +11,25 @@
       "src": "Frontend/frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "Frontend/frontend/dist"
       }
     }
   ],
   "routes": [
     {
+      "src": "/login",
+      "dest": "Backend/index.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "Backend/index.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "Frontend/frontend/dist/$1",
-      "methods": ["GET", "HEAD"]
+      "src": "/(.*\\..*)",
+      "dest": "Frontend/frontend/dist/$1"
     },
     {
-      "src": "/(.*)",
+      "src": "/.*",
       "dest": "Frontend/frontend/dist/index.html"
     }
   ]
